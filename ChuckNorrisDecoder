@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+
+public class ChuckNorrisDecoder extends ChuckNorris {
+
+    private boolean valid;
+    String str;
+
+    //decoder constructor chucknorris--->ascii
+    ChuckNorrisDecoder(String str) {
+        this.str_arr = str.split(" ");
+        this.str = str;
+        if (isValid()) {
+            this.result = decode();
+        }
+    }
+
+    //decoding and returning result
+    public String decode() {
+        ArrayList<String> new_input_spaced_list = new ArrayList<>();
+
+        for (int i = 0; i < this.str_arr.length; i += 2) {
+            new_input_spaced_list.add(String.format("%s %s", this.str_arr[i], this.str_arr[i + 1]));
+        }
+
+        String binary_str = "";
+        String value;
+        int repeat = 1;
+
+        for (String x : new_input_spaced_list) {
+            String[] new_strs = x.split(" ");
+
+            switch (new_strs[0]) {
+                case "00":
+                    value = "0";
+                    break;
+                default:
+                    value = "1";
+                    break;
+            }
+
+            while (repeat <= new_strs[1].length()) {
+                binary_str += value;
+                repeat++;
+            }
+            repeat = 1;
+        }
+
+        //for each 7 digits
+        String final_value ="";
+        for (int i = 0; i < binary_str.length(); i += 7) {
+            int decimal_value = Integer.parseInt(binary_str.substring(i, i + 7), 2);
+            char x = (char) decimal_value;
+            final_value += x;
+        }
+        return final_value;
+    }
+
+    //checks for encoded string
+    public boolean isValid() {
+        String message = "Encoded string is not valid.";
+        int multiple_of_seven_check=0;
+
+        //even number of block check
+        if (str_arr.length % 2 != 0){ ;return false; }
+
+        //each first block starts with 0 or 00
+        for (int i=0; i <str_arr.length;i+=2) {
+            if (!(str_arr[i].equals("0") || str_arr[i].equals("00"))) {
+                return false;
+            }
+        }
+        //checking 7 multiple binary code for character
+        for (int i=1; i <str_arr.length;i+=2) {
+            multiple_of_seven_check += str_arr[i].length();
+        } if (multiple_of_seven_check % 7 !=0) {
+            return false;
+        }
+
+        return true;
+    }
+}
