@@ -1,0 +1,70 @@
+import java.util.ArrayList;
+
+public class ChuckNorrisEncoder extends ChuckNorris {
+    ChuckNorrisEncoder(String str) {
+        this.str_arr = str.split("");
+        this.result = encode();
+    }
+
+    public String encode() {
+        ArrayList<String> binaryCode = new ArrayList<>();
+
+        String holder="";
+        int m=1;
+
+        for (int i=0; i <this.str_arr.length;i++) {
+            int y = str_arr[i].charAt(0);
+            //to binary code string
+            String binary_value = String.format("%07d",Integer.parseInt(Integer.toBinaryString(y)));
+            if (i <str_arr.length-1) {
+                while (m < (str_arr.length - i)) {
+                    int n = str_arr[i + m].charAt(0);
+                    holder = String.format("%07d", Integer.parseInt(Integer.toBinaryString(n)));
+                    if (holder.charAt(0) == binary_value.charAt(binary_value.length() - 1)) {
+                        m++;
+                        binary_value += holder;
+                    }
+                    else {break;}
+                }
+            }
+            for (int f=1; f<m; f++) {i++;}
+            m=1;
+            binaryCode.add(binary_value);
+        }
+
+        String chucknorris = "";
+        int repeat =0;
+        String value = null;
+        for (int i=0; i <binaryCode.size(); i++) {
+            int j=0;
+            String current = binaryCode.get(i);
+            while (j < current.length()) {
+                repeat =0;
+                int placeholder = j;
+                if (current.charAt(j) == '0') {
+                    value = "00";
+                } else if (current.charAt(j) == '1') {
+                    value = "0";
+                }
+                chucknorris += value;
+                for (int k = placeholder; k < current.length(); k++) {
+                    if (current.charAt(j) == current.charAt(k)) {
+                        repeat++;
+                    } else {
+                        break;
+                    }
+                }
+                chucknorris += " ";
+                j += repeat;
+                int counter=0;
+                while (counter < repeat){
+                    chucknorris += '0';
+                    counter++;
+                }
+                if (j-repeat < current.length()) {chucknorris += " ";}
+            }
+        }
+        chucknorris = chucknorris.trim();
+        return chucknorris;
+    }
+}
