@@ -1,0 +1,6 @@
+public class ChuckNorris {
+    protected String[] str_arr;
+    protected String result;
+
+}
+
