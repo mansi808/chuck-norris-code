@@ -2,7 +2,7 @@
 
 chuck norris code is uranry code containing only zeroes and spaces.
 
-Binary code is converted to code sequence where 1 is 0 and 0 is 00, etc.
+Binary code is converted to uranry chuck norris code sequence.
 
 [detailed explaination here](https://www.dcode.fr/chuck-norris-code)
 
